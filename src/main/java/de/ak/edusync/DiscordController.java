@@ -17,9 +17,9 @@ public class DiscordController {
 
     @PostMapping("/discord-login")
     public String loginToDiscord(@ModelAttribute DiscordAccountModel discordAccount) {
-        System.out.println(discordAccount.getPassword());
-        System.out.println(discordAccount.getUsername());
-        //login with discord api
+        System.out.println("Logging in with token " + discordAccount.getToken());
+
+
         return "index";
     }
 }
