@@ -12,7 +12,7 @@
     <artifactId>edusync</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>edusync</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Sync your edu files to Nextcloud</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -25,6 +25,7 @@
             <artifactId>nextcloud-api</artifactId>
             <version>11.1.0</version>
         </dependency>
+
         <dependency>
             <groupId>com.discord4j</groupId>
             <artifactId>discord4j-core</artifactId>
