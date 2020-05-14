@@ -20,7 +20,6 @@ import java.util.concurrent.Executors;
 @Controller
 public class WebController {
 
-
     @RequestMapping("/index")
     public String generateWelcomePage(){
         return "index";
@@ -33,20 +32,19 @@ public class WebController {
     }
 
     @PostMapping("/sync")
-    public String loginToNextCloud(@ModelAttribute DataModel dataObject) throws IOException {
+    public String startSyncJob(@ModelAttribute DataModel dataObject) throws IOException {
 
         Runnable r = new Runnable() {
             public void run() {
                 while(true) {
                     try {
-                        System.out.println(dataObject.getRemoteFolderPath());
                         sync(dataObject.loginToNextcloud(), dataObject.getFileUrl(), dataObject.getRemoteFolderPath());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     try {
                         System.out.println("Running sync job inside folder "+ dataObject.getRemoteFolderPath());
-                        //wait for one hour
+                        //wait specified time
                         Thread.sleep(dataObject.getSyncInterval()*60000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
