@@ -8,16 +8,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Controller
 public class WebController {
+
+
     @RequestMapping("/index")
     public String generateWelcomePage(){
         return "index";
@@ -31,41 +34,74 @@ public class WebController {
 
     @PostMapping("/sync")
     public String loginToNextCloud(@ModelAttribute DataModel dataObject) throws IOException {
-//        System.out.println(dataObject.getFileUrl()+ dataObject.getNextCloudUrl()+ dataObject.getPassword()+ dataObject.getUsername());
 
+        Runnable r = new Runnable() {
+            public void run() {
+                while(true) {
+                    try {
+                        System.out.println(dataObject.getRemoteFolderPath());
+                        sync(dataObject.loginToNextcloud(), dataObject.getFileUrl(), dataObject.getRemoteFolderPath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        System.out.println("Running sync job inside folder "+ dataObject.getRemoteFolderPath());
+                        //wait for one hour
+                        Thread.sleep(dataObject.getSyncInterval()*60000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
 
-        //login to nextcloud
-        NextcloudConnector nextcloud = dataObject.loginToNextcloud();
-
-        //get date time for versioning (just for testing)
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH_mm_ss");
-        LocalDateTime now = LocalDateTime.now();
-
-        URL fileURL = new URL(dataObject.getFileUrl());
-        String localFilePath = "src/main/resources/" + dataObject.getFileName();
-        String remoteFolderPath = dtf.format(now);
-
-        //delete older versions in local repo if it exists
-        if(Files.exists(Paths.get(localFilePath))) {
-            Files.delete(Paths.get(localFilePath));
-        }
-
-        //download new file
-        InputStream in = new URL(dataObject.getFileUrl()).openStream();
-        Files.copy(in, Paths.get(localFilePath));
-
-        //put a folder with date and upload file into that folder
-        nextcloud.createFolder(remoteFolderPath);
-     //   nextcloud.uploadFile(, remoteFolderPath+"/"+dataObject.getFileName());
-
+        ExecutorService executor = Executors.newCachedThreadPool();
+        executor.submit(r);
 
         //forward to start page if everything went well
         return "bye";
     }
 
+    public void sync(NextcloudConnector nextcloud, String fileURL, String remoteFolderPath) throws IOException {
+
+        //aux array to get filename from link
+        String[] linkParts = fileURL.split("/");
+
+        //save filename in var
+        String fileName = linkParts[linkParts.length-1];
+
+        //generate local path
+        String localFilePath = "src/main/resources/" + fileName;
+
+        //generate remote path
+        String remoteFilePath = "/" + remoteFolderPath + "/" + fileName;
+
+        //delete old files
+        if(Files.exists(Paths.get(localFilePath))) {
+            Files.delete(Paths.get(localFilePath));
+        }
+
+        //download latest file
+        InputStream in = new URL(fileURL).openStream();
+        Files.copy(in, Paths.get(localFilePath));
 
 
+        //generate a Fileinputstream from that file
+        InputStream nextcloudStream = new FileInputStream(localFilePath);
 
+
+        //create desired folder if it doesnt exist yet
+        if(!nextcloud.folderExists("/" + remoteFolderPath)) {
+            nextcloud.createFolder("/" + remoteFolderPath);
+        }
+
+        //upload the file to the folder and replace
+        if(nextcloud.fileExists(remoteFilePath)){
+            nextcloud.removeFile(remoteFilePath);
+        }
+        nextcloud.uploadFile(nextcloudStream, remoteFilePath);
+
+    }
 
 
 }
