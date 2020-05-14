@@ -1,31 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>edusync</title>
-</head>
-<body>
-<form th:action="@{/sync}" th:object="${dataObject}" method="post">
-    <div class="col-md-6 form-group">
-        <label>NextCloud URL</label>
-        <input type="text" class="form-control" th:field="*{nextCloudUrl}">
-    </div>
-    <div class="col-md-6 form-group">
-        <label>Username:</label>
-        <input type="text" class="form-control" th:field="*{username}">
-    </div>
-    <div class="col-md-6 form-group">
-        <label>Password:</label>
-        <input type="password" class="form-control" th:field="*{password}">
-    </div> <br><br>
-    <div class="col-md-6 form-group">
-        <label>File to Download</label>
-        <input type="text" class="form-control" th:field="*{fileUrl}">
-    </div>
-    <div class="col-md-6 form-group">
-        <input type="submit" class="form-control">
-    </div>
 
-</form>
+<head>
+  <meta charset="UTF-8">
+  <title>edusync</title>
+  <link th:href="@{/css/main.css}" rel="stylesheet" />
+</head>
+
+<body>
+  <px>
+    <h1>edusync</h1>
+    <img src="favicon.ico" alt="">
+
+    <br>
+    <br>
+
+    <form th:action="@{/sync}" th:object="${dataObject}" method="post" >
+      <div class="col-md-6 form-group">
+        <label>NextCloud URL:</label><br>
+        <input type="text" class="form-control" th:field="*{nextCloudUrl}" required>
+      </div>
+      <br>
+      <div class="col-md-6 form-group">
+        <label>Username:</label><br>
+        <input type="text" class="form-control" th:field="*{username}" required>
+      </div>
+      <br>
+      <div class="col-md-6 form-group">
+        <label>Password:</label><br>
+        <input type="password" class="form-control" th:field="*{password}" required>
+      </div>
+      <br>
+      <div class="col-md-6 form-group">
+        <label>File URL:</label><br>
+        <input type="text" class="form-control" th:field="*{fileUrl}" required>
+        <div class="tooltip">
+          ?
+          <span class="tooltiptext">Needs to be a direct download link.</span>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="col-md-6 form-group">
+        <input type="submit" class="form-control">
+      </div>
+
+    </form>
 </body>
+
 </html>
