@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NextCloud Login</title>
+    <title>edusync/title>
 </head>
 <body>
-<form th:action="@{/nextcloud-login}" th:object="${nextCloudAccount}" method="post">
+<form th:action="@{/sync}" th:object="${dataObject}" method="post">
     <div class="col-md-6 form-group">
         <label>NextCloud URL</label>
-        <input type="text" class="form-control" th:field="*{url}">
+        <input type="text" class="form-control" th:field="*{nextCloudUrl}">
     </div>
     <div class="col-md-6 form-group">
         <label>Username:</label>
@@ -17,6 +17,10 @@
     <div class="col-md-6 form-group">
         <label>Password:</label>
         <input type="password" class="form-control" th:field="*{password}">
+    </div> <br><br>
+    <div class="col-md-6 form-group">
+        <label>File to Download</label>
+        <input type="password" class="form-control" th:field="*{fileUrl}">
     </div>
     <div class="col-md-6 form-group">
         <input type="submit" class="form-control">
