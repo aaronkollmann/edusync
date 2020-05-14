@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Welcome to edusync!</title>
+    <meta charset="UTF-8">
+    <title>edusync</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
 </head>
-
 <body>
-  <p>
-    This app logs into your Discord and Nextcloud account and then pulls all files from your servers and chats and syncs it with your Nextcloud.
-  </p>
-  <a href="nextcloud">Nextcloud Login</a><br>
-  <a href="discord">Discord Login</a>
+    <h1>edusync</h1>
+    <p>
+        This is text on which we want to apply <strong>very special</strong> styling.
+    </p>
 </body>
-
 </html>

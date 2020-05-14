@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>edusync/title>
+    <title>edusync</title>
 </head>
 <body>
 <form th:action="@{/sync}" th:object="${dataObject}" method="post">
@@ -20,7 +20,7 @@
     </div> <br><br>
     <div class="col-md-6 form-group">
         <label>File to Download</label>
-        <input type="password" class="form-control" th:field="*{fileUrl}">
+        <input type="text" class="form-control" th:field="*{fileUrl}">
     </div>
     <div class="col-md-6 form-group">
         <input type="submit" class="form-control">
