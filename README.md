@@ -1,6 +1,6 @@
 # edusync
 
-1. package the app using Maven as a jar file
+### Packaging the app
 - if you're on Linux or Mac
 - `./mvnw clean install`
 - `./mvnw package`
@@ -10,15 +10,16 @@
 - `mvnw package`
 
 
-2. build the Docker image from the jar file.
+### Building the Docker image
 
 - `docker build --tag edusync .`
 
-3. run the container as an image.
+### Running the Docker image as container
 
 - `docker run --publish 8000:8080 --detach edusync`
 
-4. using the app
+### Using the app
 
 - this app uses TLS to protect your NextCloud passwords in-transit
-- navigate to `https://localhost:8000` and accept the SSL-Warning
+- assuming youre running the container locally,  navigate to `https://localhost:8000` and accept the SSL-Warning
+- otherwise, replace `localhost` with your Docker Server domain name or IP-Address
