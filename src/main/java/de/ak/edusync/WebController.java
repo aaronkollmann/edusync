@@ -42,7 +42,6 @@ public class WebController {
                         sync(dataObject.loginToNextcloud(), dataObject.getFileUrl(), dataObject.getRemoteFolderPath());
                     } catch (IOException e) {
                         e.printStackTrace();
-
                     }
                     try {
                         //wait specified time
@@ -70,7 +69,7 @@ public class WebController {
         String fileName = linkParts[linkParts.length-1];
 
         //generate local path
-        String localFilePath = "src/main/resources/" + fileName;
+        String localFilePath = fileName;
 
         //generate remote path
         String remoteFilePath = "/" + remoteFolderPath + "/" + fileName;
