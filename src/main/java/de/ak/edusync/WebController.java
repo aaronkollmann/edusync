@@ -42,9 +42,9 @@ public class WebController {
                         sync(dataObject.loginToNextcloud(), dataObject.getFileUrl(), dataObject.getRemoteFolderPath());
                     } catch (IOException e) {
                         e.printStackTrace();
+
                     }
                     try {
-                        System.out.println("Running sync job inside folder "+ dataObject.getRemoteFolderPath());
                         //wait specified time
                         Thread.sleep(dataObject.getSyncInterval()*60000);
                     } catch (InterruptedException e) {
@@ -98,6 +98,8 @@ public class WebController {
         if(nextcloud.fileExists(remoteFilePath)){
             nextcloud.removeFile(remoteFilePath);
         }
+        //proof that input stream isnt empty
+        System.out.println("Size of Inputstream: " + nextcloudStream.available());
         nextcloud.uploadFile(nextcloudStream, remoteFilePath);
 
     }
