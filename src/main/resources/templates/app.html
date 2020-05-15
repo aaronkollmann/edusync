@@ -36,23 +36,25 @@
         <input type="text" class="form-control" th:field="*{fileUrl}" required>
         <div class="tooltip">
            ?
-          <span class="tooltiptext">Needs to be a direct download link.</span>
+          <span class="tooltiptext">This is the file that you want to download. Needs to be a direct download link.</span>
         </div>
       </div>
+      <br>
       <div class="col-md-6 form-group">
         <label>Folder Name:</label><br>
         <input type="text" class="form-control" th:field="*{remoteFolderPath}" required>
         <div class="tooltip">
           ?
-          <span class="tooltiptext">Enter desired Foldername in your Nextcloud</span>
+          <span class="tooltiptext">Enter desired foldername (or path respectively) in your NextCloud. e.g. "somefolder/mydesiredfolder" or just "mydesiredfolder"</span>
         </div>
       </div>
+      <br>
       <div class="col-md-6 form-group">
         <label>Sync Interval in minutes:</label><br>
         <input type="text" class="form-control" th:field="*{syncInterval}" required>
         <div class="tooltip">
           ?
-          <span class="tooltiptext">Enter desired Foldername in your Nextcloud</span>
+          <span class="tooltiptext">The amount of minutes until file is being downloaded from the server again.</span>
         </div>
       </div>
 

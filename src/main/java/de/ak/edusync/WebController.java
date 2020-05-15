@@ -34,6 +34,7 @@ public class WebController {
     @PostMapping("/sync")
     public String startSyncJob(@ModelAttribute DataModel dataObject) throws IOException {
 
+        //start background thread...
         Runnable r = new Runnable() {
             public void run() {
                 while(true) {
